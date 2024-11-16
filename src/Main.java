@@ -25,13 +25,7 @@ public class Main {
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setString(1, coachName);
             ResultSet result = stmt.executeQuery();
-//            System.out.println("Processing Results");
-//
-//            while(result.next()) {
-//                System.out.println("Coach Name: " + result.getString("CoachName"));
-//                System.out.println("Career Wins: " + result.getString("CareerWins"));
-//                System.out.println("Teams Trained: " + result.getString("# of Teams Trained"));
-//            }
+            System.out.println("Processing Results");
 
             System.out.println(String.format("%-20s | %-12s | %-18s", "Coach Name", "Career Wins", "Teams Trained"));
             System.out.println("-------------------------------------------------------------");
@@ -70,15 +64,7 @@ public class Main {
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, rank);
             ResultSet result = stmt.executeQuery();
-//            System.out.println("Processing Results");
-//
-//            while(result.next()) {
-//                System.out.println("Rank: " + result.getString("Rank"));
-//                System.out.println("Team Name: " + result.getString("TeamName"));
-//                System.out.println("Song Title: " + result.getString("SongTitle"));
-//                System.out.println("Artist: " + result.getString("ArtistFirstName") +
-//                         " " + result.getString("ArtistLastName"));
-//            }
+            System.out.println("Processing Results");
 
             System.out.println(String.format("%-6s | %-20s | %-30s | %-20s | %-20s",
                     "Rank", "Team Name", "Song Title", "Artist First Name", "Artist Last Name"));
@@ -115,13 +101,6 @@ public class Main {
             ResultSet result = stmt.executeQuery();
             System.out.println("Processing Results");
 
-//            while (result.next()) {
-//                System.out.println("Coach: " + result.getString("CoachName"));
-//                System.out.println("Song Title: " + result.getString("SongTitle"));
-//                System.out.println("Artist: " + result.getString("ArtistFirstName") +
-//                        " " + result.getString("ArtistLastName"));
-//            }
-//
             System.out.println(String.format("%-20s | %-30s | %-20s | %-20s",
                     "Coach Name", "Song Title", "Artist First Name", "Artist Last Name"));
             System.out.println("-------------------------------------------------------------------------------");
@@ -162,12 +141,6 @@ public class Main {
             ResultSet result = stmt.executeQuery();
             System.out.println("Processing Results");
 
-//            while(result.next()) {
-//                System.out.println("Team Name: " + result.getString("TeamName"));
-//                System.out.println("Song Title: " + result.getString("SongTitle"));
-//                System.out.println("Artist: " + result.getString("ArtistFirstName") +
-//                        " " + result.getString("ArtistLastName"));
-//            }
             System.out.println(String.format("%-20s | %-30s | %-20s | %-20s",
                     "Team Name", "Song Title", "Artist First Name", "Artist Last Name"));
             System.out.println("-------------------------------------------------------------------------------");
@@ -205,11 +178,6 @@ public class Main {
             ResultSet result = stmt.executeQuery();
             System.out.println("Processing Results");
 
-//            while(result.next()) {
-//                System.out.println("Song Title: " + result.getString("SongTitle"));
-//                System.out.println("Artist: " + result.getString("ArtistFirstName") +
-//                        " " + result.getString("ArtistLastName"));
-//            }
             System.out.println(String.format("%-30s | %-20s | %-20s",
                     "Song Title", "Artist First Name", "Artist Last Name"));
             System.out.println("-------------------------------------------------------------");
@@ -250,10 +218,6 @@ public class Main {
             ResultSet result = stmt.executeQuery();
             System.out.println("Processing Results");
 
-//            while(result.next()) {
-//                System.out.println("Song Title: " + result.getString("SongTitle"));
-//                System.out.println("Team Names: " + result.getString("TeamName"));
-//            }
             System.out.println(String.format("%-30s | %-20s", "Song Title", "Team Name"));
             System.out.println("-------------------------------------------------------------");
             while (result.next()) {
