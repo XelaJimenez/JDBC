@@ -208,7 +208,6 @@ public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         int userInput = Menu(scan);
-
         while(userInput != 0) {
             switch (userInput) {
                 case 1 -> coachStats(scan);
