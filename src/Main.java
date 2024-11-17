@@ -2,19 +2,24 @@ import java.util.*;
 import java.sql.*;
 
 public class Main {
-    public static void coachStats(Scanner scan) {
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        }
-        catch (Exception e){
-            System.out.println("Can't load driver");
-        }
+    public static void loadJDBCDriver() {
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Can't load JDBC driver: " + e.getMessage());
+        }
+    }
+    public static Connection getConnection() throws SQLException {
             System.out.println("Starting Connection........");
             Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://161.35.177.175:3306/dbalexj", "alexj", "pwd");
+                    "jdbc:mysql://161.35.177.175:3306/dbalexj?noAccessToProcedureBodies=true", "alexj", "pwd");
             System.out.println("Connection Established");
-
+        return con;
+    }
+    public static void coachStats(Scanner scan) {
+        loadJDBCDriver();
+        try {
+            Connection con = getConnection();
             String coachName;
             System.out.print("Enter a coaches name: ");
             coachName = scan.nextLine();
@@ -28,7 +33,7 @@ public class Main {
             System.out.println("Processing Results");
 
             System.out.println(String.format("%-20s | %-12s | %-18s", "Coach Name", "Career Wins", "Teams Trained"));
-            System.out.println("-------------------------------------------------------------");
+            System.out.println("--------------------------------------------------------------------");
             while(result.next()) {
                 System.out.println(String.format("%-20s | %-12s | %-18s",
                         result.getString("CoachName"),
@@ -36,24 +41,14 @@ public class Main {
                         result.getString("# of Teams Trained")));
             }
             con.close();
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             System.out.println("Error occurred" + e.getMessage());
         }
     }
     public static void searchByRank(Scanner scan) {
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        }
-        catch (Exception e){
-            System.out.println("Can't load driver");
-        }
+        loadJDBCDriver();
         try {
-            System.out.println("Starting Connection........");
-            Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://161.35.177.175:3306/dbalexj", "alexj", "pwd");
-            System.out.println("Connection Established");
-
+            Connection con = getConnection();
             int rank;
             System.out.print("Enter a rank to search by: ");
             rank = scan.nextInt();
@@ -66,11 +61,11 @@ public class Main {
             ResultSet result = stmt.executeQuery();
             System.out.println("Processing Results");
 
-            System.out.println(String.format("%-6s | %-20s | %-30s | %-20s | %-20s",
+            System.out.println(String.format("%-5s | %-20s | %-30s | %-20s | %-20s",
                     "Rank", "Team Name", "Song Title", "Artist First Name", "Artist Last Name"));
-            System.out.println("-------------------------------------------------------------------------------");
+            System.out.println("----------------------------------------------------------------------------------------");
             while(result.next()) {
-                System.out.println(String.format("%-6s | %-20s | %-30s | %-20s | %-20s",
+                System.out.println(String.format("%-5s | %-20s | %-30s | %-20s | %-20s",
                         result.getString("Rank"),
                         result.getString("TeamName"),
                         result.getString("SongTitle"),
@@ -78,24 +73,14 @@ public class Main {
                         result.getString("ArtistLastName")));
             }
             con.close();
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             System.out.println("Error occurred" + e.getMessage());
         }
     }
     public static void presentCoaches() {
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        }
-        catch (Exception e){
-            System.out.println("Can't load driver");
-        }
+        loadJDBCDriver();
         try {
-            System.out.println("Starting Connection........");
-            Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://161.35.177.175:3306/dbalexj?noAccessToProcedureBodies=true", "alexj", "pwd");
-            System.out.println("Connection Established");
-
+            Connection con = getConnection();
             String sql = "{CALL get_presentCoachesWithSongs()}";
             CallableStatement stmt = con.prepareCall(sql);
             ResultSet result = stmt.executeQuery();
@@ -103,7 +88,7 @@ public class Main {
 
             System.out.println(String.format("%-20s | %-30s | %-20s | %-20s",
                     "Coach Name", "Song Title", "Artist First Name", "Artist Last Name"));
-            System.out.println("-------------------------------------------------------------------------------");
+            System.out.println("----------------------------------------------------------------------------------------");
             while (result.next()) {
                 System.out.println(String.format("%-20s | %-30s | %-20s | %-20s",
                         result.getString("CoachName"),
@@ -112,24 +97,14 @@ public class Main {
                         result.getString("ArtistLastName")));
             }
             con.close();
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             System.out.println("Error occurred" + e.getMessage());
         }
     }
     public static void anthemsFrom1990() {
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        }
-        catch (Exception e){
-            System.out.println("Can't load driver");
-        }
+        loadJDBCDriver();
         try {
-            System.out.println("Starting Connection........");
-            Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://161.35.177.175:3306/dbalexj", "alexj", "pwd");
-            System.out.println("Connection Established");
-
+            Connection con = getConnection();
             String query = "SELECT TeamName, SongTitle, ArtistFirstName, ArtistLastName" +
                     " FROM Teams t JOIN TopSongs s ON t.SongID = s.SongID" +
                     " JOIN Features f ON f.SongID = s.SongID" +
@@ -143,7 +118,7 @@ public class Main {
 
             System.out.println(String.format("%-20s | %-30s | %-20s | %-20s",
                     "Team Name", "Song Title", "Artist First Name", "Artist Last Name"));
-            System.out.println("-------------------------------------------------------------------------------");
+            System.out.println("----------------------------------------------------------------------------------------");
             while (result.next()) {
                 System.out.println(String.format("%-20s | %-30s | %-20s | %-20s",
                         result.getString("TeamName"),
@@ -152,24 +127,14 @@ public class Main {
                         result.getString("ArtistLastName")));
             }
             con.close();
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             System.out.println("Error occurred" + e.getMessage());
         }
     }
     public static void dallasCowboysAnthems() {
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        }
-        catch (Exception e){
-            System.out.println("Can't load driver");
-        }
+        loadJDBCDriver();
         try {
-            System.out.println("Starting Connection........");
-            Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://161.35.177.175:3306/dbalexj", "alexj", "pwd");
-            System.out.println("Connection Established");
-
+            Connection con = getConnection();
             String query = "SELECT SongTitle, ArtistFirstName, ArtistLastName" +
                     " FROM Teams t Join TopSongs s ON t.SongID = s.SongID" +
                     " JOIN Features f ON f.SongID = s.SongID" +
@@ -188,24 +153,14 @@ public class Main {
                         result.getString("ArtistLastName")));
             }
             con.close();
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             System.out.println("Error occurred" + e.getMessage());
         }
     }
     public static void searchByArtist(Scanner scan) {
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        }
-        catch (Exception e){
-            System.out.println("Can't load driver");
-        }
+        loadJDBCDriver();
         try {
-            System.out.println("Starting Connection........");
-            Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://161.35.177.175:3306/dbalexj", "alexj", "pwd");
-            System.out.println("Connection Established");
-
+            Connection con = getConnection();
             String artistName;
             System.out.print("Enter an artist's first name: ");
             artistName = scan.nextLine();
@@ -226,8 +181,7 @@ public class Main {
                         result.getString("TeamName")));
             }
             con.close();
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             System.out.println("Error occurred" + e.getMessage());
         }
     }
